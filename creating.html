@@ -17,7 +17,8 @@
             <button class="bg-blue mr2" onclick="interval()">Interval</button>
             <button class="bg-blue mr2" onclick="clearIntervalChain()">Clear Interval</button>
             <button class="bg-blue mr2" onclick="xhr()">XHR</button>
-            <button class="bg-blue mr2" onclick="allPromises()">All</button>
+            <button class="bg-blue mr2" onclick="allPromisesSuccessful()">All successful</button>
+            <button class="bg-blue mr2" onclick="onePromiseFails()">All successful except one</button>
             <button class="bg-blue mr2" onclick="allSettled()">All Settled</button>
             <button class="bg-blue mr2" onclick="race()">Race</button>
         </div>
@@ -25,13 +26,14 @@
             <h1>Results</h1>
         </div>
         <script type="module">
-            import { timeout, interval, clearIntervalChain, xhr, allPromises, allSettled, race } from "./src/creating.mjs";
+            import { timeout, interval, clearIntervalChain, xhr, allPromisesSuccessful, onePromiseFails, allSettled, race } from "./src/creating.mjs";
 
             window.timeout = timeout;
             window.interval = interval;
             window.clearIntervalChain = clearIntervalChain;
             window.xhr = xhr;
-            window.allPromises = allPromises;
+            window.allPromisesSuccessful = allPromisesSuccessful;
+            window.onePromiseFails = onePromiseFails;
             window.allSettled = allSettled;
             window.race = race;
         </script>
