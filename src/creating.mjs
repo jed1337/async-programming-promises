@@ -129,7 +129,42 @@ export function onePromiseFails(){
 }
 
 export function allSettled() {
+    const categories = axios.get("http://localhost:3000/itemCategories")
+    const statuses = axios.get("http://localhost:3000/orderStatuses")
+    const userTypes = axios.get("http://localhost:3000/userTypes")
+    const addressTypes = axios.get("http://localhost:3000/addressTypes")
+
+    //.all() returns the objects in an array
+    //.allSettled() returns different data depending if the promise is resolved or rejected
+    ///resolved{status:'fulfilled', value:{}}
+    //rejected{status:'rejected', reason:{}}
+
+    //We don't need a catch block because of this. But it's a good recommendation to still recommended since errors might occur in .then()
+    //Not all browsers support .allSettled()
+    Promise.allSettled([categories, statuses, userTypes, addressTypes])
+        .then(values => {
+            const results = values
+                .map(v=>{
+                    if (v.status === 'fulfilled') {
+                        return `FULFILLED: ${JSON.stringify(v.value.data[0])}\n`
+                    }
+                    return `REJECTED: ${v.reason.message}\n`
+                })
+            setText(results)
+        })
+        .catch(reasons=>{
+            setText(reasons)
+        })
 }
 
 export function race() {
+    const users = axios.get("http://localhost:3000/users")
+    const backup = axios.get("http://localhost:3001/users")
+
+    //Returns only 1 value: the first promise to settle. That's why .race() is rarely used
+    //.race() stops when the first promise settles
+    //If the first promise gets rejected, .catch() gets invoked
+    Promise.race([users, backup])
+        .then(value=>setText(JSON.stringify(value.data)))
+        .catch(err=>setText(err))
 }
